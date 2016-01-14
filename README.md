@@ -25,7 +25,7 @@ To make this simpler, you can require `expand` and extend your current context w
 reuire 'expand'
 extend Expand
 
-namespace 'SomeGem::Thing' do
+namespace SomeGem::Thing do
   create_class :NewThing do
     # define methods here
   end

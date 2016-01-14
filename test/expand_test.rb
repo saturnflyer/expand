@@ -18,7 +18,7 @@ end
 
 extend Expand
 
-namespace 'Base::SubClass' do
+namespace Base::SubClass do
   create_class :New do
     def test
       'New class created!'

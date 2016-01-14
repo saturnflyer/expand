@@ -19,11 +19,13 @@ module Expand
     end
   end
 
-  def namespace(string, &block)
-    namespace = string.split('::').inject(Object) do |base, mod|
-      base.const_get(mod)
+  def namespace(context, &block)
+    unless context.is_a?(Module)
+      context = context.to_s.split('::').inject(Object) do |base, mod|
+        base.const_get(mod)
+      end
     end
-    Manager.new(namespace).instance_eval(&block)
+    Manager.new(context).instance_eval(&block)
   end
   alias expand namespace
 end
