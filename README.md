@@ -1,4 +1,4 @@
-# Epand
+# Expand
 
 Use Expand to create classes or modules under an existing namespace.
 
