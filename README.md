@@ -22,7 +22,7 @@ SomeGem::Thing::NewThing #=> warning: toplevel constant NewThing referenced by S
 To make this simpler, you can require `expand` and extend your current context with Expand.
 
 ```ruby
-reuire 'expand'
+require 'expand'
 extend Expand
 
 namespace SomeGem::Thing do
