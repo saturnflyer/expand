@@ -1,5 +1,8 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'expand'
-
-require 'minitest/spec'
+require 'simplecov'
 require 'minitest/autorun'
+
+SimpleCov.start do
+  add_filter 'test'
+end
+
+require 'expand'
