@@ -63,7 +63,17 @@ module Expand
   #     end
   #   end
   #
+  #   namespace SomeGem::Thing, class: :Other do
+  #     # add methods here
+  #   end
+  #   namespace SomeGem::Thing, module: :Another do
+  #     # add methods here
+  #   end
+  #
   # @param context [Module, String, or any object responding to to_s] representing a module namespace.
+  # @param module: module name to create
+  # @param class: class name to create
+  # @param parent: optional parent class for the created class, defaults to Object
   # @yield the provided block is executed against an instance of Expand::Manager using instance_eval
   #
   # @return [Expand::Manager] instance which can allow you to create classes and modules in the given context.
