@@ -72,6 +72,7 @@ namespace 'Basis::SubModule' do
 end
 
 describe Expand do
+  include Expand
   it 'adds a class in a class/class structure' do
     _(::Base::SubClass.const_get('New')).must_be_kind_of Class
     _(::Base::SubClass::New.new.test).must_equal('New class created!')
@@ -107,5 +108,39 @@ describe Expand do
     _(::Basis::SubModule.const_get('Mod')).wont_be_kind_of Class
     _(::Basis::SubModule.const_get('Mod')).must_be_kind_of Module
     _(::Basis::SubModule::Mod.instance_method(:test).bind(self).call).must_equal('Mod module created!')
+  end
+  it 'creates a class via the namespace' do
+    klass = namespace Base::SubClass, class: :Inline do
+      def inline_method
+        "inline!"
+      end
+    end
+    _(klass).must_be_kind_of(Class)
+  end
+  it 'creates a class with a parent via the namespace' do
+    klass = namespace Base::SubClass, class: :InlineClass, parent: Numeric do
+      def inline_method
+        "inline class!"
+      end
+    end
+    _(klass.new).must_be_kind_of(Numeric)
+    _(klass.new).must_respond_to(:inline_method)
+  end
+  it 'creates a module via the namespace' do
+    mod = namespace Base::SubClass, module: :InlineModule do
+      def inline_method
+        "inline module!"
+      end
+    end
+    _(mod).must_be_kind_of(Module)
+    _(mod.instance_methods).must_include(:inline_method)
+  end
+  it 'raises an error with class and module options' do
+    err = _{ namespace Base::SubClass, module: :InlineModule, class: :InlineClass }.must_raise(ArgumentError)
+    _(err.message).must_match(/not both/)
+  end
+  it 'warns when a parent option is provided with module' do
+    err = _{ namespace Base::SubClass, module: :InlineModule, class: :InlineClass }.must_raise(ArgumentError)
+    _(err.message).must_match(/not both/)
   end
 end

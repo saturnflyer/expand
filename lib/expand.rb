@@ -8,7 +8,7 @@ module Expand
   #
   class Manager
     # @see Expand#namespace
-    def initialize(namespace)
+    def initialize(namespace, **class_or_module, &block)
       @managed = namespace
     end
 
@@ -71,13 +71,29 @@ module Expand
   # @see Expand::Manager#create_class
   # @see Expand::Manager#create_module
   #
-  def namespace(context, &block)
+  def namespace(context, **class_or_module, &block)
     unless context.is_a?(Module)
       context = context.to_s.split('::').inject(Object) do |base, mod|
         base.const_get(mod)
       end
     end
-    Manager.new(context).instance_eval(&block)
+    manager = Manager.new(context)
+
+    creating_class, creating_module = class_or_module[:class], class_or_module[:module]
+    raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
+
+    case
+    when creating_class
+      parent = class_or_module[:parent] || Object
+      manager.create_class(creating_class, parent: parent, &block)
+    when creating_module
+      if class_or_module[:parent]
+        warn "An option for :parent was provided as `#{class_or_module[:parent]}' but was ignored when creating the module: #{class_or_module[:module]}"
+      end
+      manager.create_module(creating_module, &block)
+    else
+      manager.instance_eval(&block)
+    end
   end
   alias expand namespace
 end

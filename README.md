@@ -34,6 +34,21 @@ end
 SomeGem::Thing::NewThing #=> SomeGem::Thing::NewThing
 ```
 
+And even simpler, you can do it all in one line:
+
+```ruby
+require 'expand'
+extend Expand
+
+namespace SomeGem::Thing, class: :NewThing, parent: SomeExistingOtherClass do
+  # define methods here
+end
+
+namespace SomeGem::Thing, class: :NewModule do
+  # define methods here
+end
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
