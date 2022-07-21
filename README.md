@@ -44,7 +44,7 @@ namespace SomeGem::Thing, class: :NewThing, parent: SomeExistingOtherClass do
   # define methods here
 end
 
-namespace SomeGem::Thing, class: :NewModule do
+namespace SomeGem::Thing, module: :NewModule do
   # define methods here
 end
 ```
