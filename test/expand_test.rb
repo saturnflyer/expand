@@ -140,7 +140,9 @@ describe Expand do
     _(err.message).must_match(/not both/)
   end
   it 'warns when a parent option is provided with module' do
-    err = _{ namespace Base::SubClass, module: :InlineModule, class: :InlineClass }.must_raise(ArgumentError)
-    _(err.message).must_match(/not both/)
+    _out, err = capture_io do
+      namespace Base::SubClass, module: :NoParent, parent: Base::SubClass::New
+    end
+    _(err).must_match(/An option for :parent was provided as \`Base::SubClass::New' but was ignored/)
   end
 end
