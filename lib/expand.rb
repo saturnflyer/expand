@@ -106,4 +106,5 @@ module Expand
     end
   end
   alias expand namespace
+  module_function :expand, :namespace
 end

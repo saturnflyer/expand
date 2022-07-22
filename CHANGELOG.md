@@ -1,3 +1,7 @@
+## 1.0.4
+
+- use a module function `Expand.namespace` so you don't need to extend
+
 ## 1.0.3
 
 - allow the creation of a module or class in the namespace/expand method itself.

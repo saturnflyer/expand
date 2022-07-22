@@ -145,4 +145,14 @@ describe Expand do
     end
     _(err).must_match(/An option for :parent was provided as \`Base::SubClass::New' but was ignored/)
   end
+  it 'works as a module_function' do
+    mod = Expand.namespace Base::SubClass, module: :Test do
+      def does_it_work?
+        "yes"
+      end
+    end
+    _(mod.instance_methods).must_include(:does_it_work?)
+    _(mod.instance_method(:does_it_work?).bind(self).call).must_equal "yes"
+    _(mod.name).must_equal('Base::SubClass::Test')
+  end
 end

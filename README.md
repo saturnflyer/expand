@@ -19,22 +19,19 @@ end
 SomeGem::Thing::NewThing #=> warning: toplevel constant NewThing referenced by SomeGem::Thing::NewThing
 ```
 
-To make this simpler, you can require `expand` and extend your current context with Expand.
+To make this simpler, you can require `expand` and specify the namespace and the new class or module.
 
 ```ruby
 require 'expand'
-extend Expand
 
-namespace SomeGem::Thing do
-  create_class :NewThing do
-    # define methods here
-  end
+Expand.namespace SomeGem::Thing, class: :NewThing do
+  # define methods for your class here
 end
 
 SomeGem::Thing::NewThing #=> SomeGem::Thing::NewThing
 ```
 
-And even simpler, you can do it all in one line:
+You can also extend an class or object to add the `namespace` method.
 
 ```ruby
 require 'expand'
@@ -46,6 +43,23 @@ end
 
 namespace SomeGem::Thing, module: :NewModule do
   # define methods here
+end
+```
+
+If you want more explicit code or to create multiple modules or classes under a sinngle namespace you can use `create_class` and `create_module`
+
+```ruby
+require 'expand'
+extend Expand
+
+namespace SomeGem::Thing do
+  create_class :NewClass do
+    # define methods here
+  end
+
+  create_module :NewModule do
+    # define methods here
+  end
 end
 ```
 
