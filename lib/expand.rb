@@ -2,7 +2,6 @@ require "expand/version"
 
 # Extend your classes or modules to use the Expand methods
 module Expand
-
   # The primary way to access Manager objects is to use the Expand namespace method.
   # @see Expand#namespace
   #
@@ -83,7 +82,7 @@ module Expand
   #
   def namespace(context, **class_or_module, &block)
     unless context.is_a?(Module)
-      context = context.to_s.split('::').inject(Object) do |base, mod|
+      context = context.to_s.split("::").inject(Object) do |base, mod|
         base.const_get(mod)
       end
     end
@@ -92,11 +91,10 @@ module Expand
     creating_class, creating_module = class_or_module[:class], class_or_module[:module]
     raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
 
-    case
-    when creating_class
+    if creating_class
       parent = class_or_module[:parent] || Object
       manager.create_class(creating_class, parent: parent, &block)
-    when creating_module
+    elsif creating_module
       if class_or_module[:parent]
         warn "An option for :parent was provided as `#{class_or_module[:parent]}' but was ignored when creating the module: #{class_or_module[:module]}"
       end
@@ -105,6 +103,6 @@ module Expand
       manager.instance_eval(&block)
     end
   end
-  alias expand namespace
+  alias_method :expand, :namespace
   module_function :expand, :namespace
 end

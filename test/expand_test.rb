@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class Base
   class SubClass
@@ -21,95 +21,95 @@ extend Expand
 namespace Base::SubClass do
   create_class :New do
     def test
-      'New class created!'
+      "New class created!"
     end
   end
 
   create_module :Mod do
     def test
-      'Mod module created!'
+      "Mod module created!"
     end
   end
 end
-namespace 'Base::SubModule' do
+namespace "Base::SubModule" do
   create_class :New do
     def test
-      'New class created!'
+      "New class created!"
     end
   end
 
   create_module :Mod do
     def test
-      'Mod module created!'
+      "Mod module created!"
     end
   end
 end
-namespace 'Basis::SubClass' do
+namespace "Basis::SubClass" do
   create_class :New do
     def test
-      'New class created!'
+      "New class created!"
     end
   end
 
   create_module :Mod do
     def test
-      'Mod module created!'
+      "Mod module created!"
     end
   end
 end
-namespace 'Basis::SubModule' do
+namespace "Basis::SubModule" do
   create_class :New do
     def test
-      'New class created!'
+      "New class created!"
     end
   end
 
   create_module :Mod do
     def test
-      'Mod module created!'
+      "Mod module created!"
     end
   end
 end
 
 describe Expand do
   include Expand
-  it 'adds a class in a class/class structure' do
-    _(::Base::SubClass.const_get('New')).must_be_kind_of Class
-    _(::Base::SubClass::New.new.test).must_equal('New class created!')
+  it "adds a class in a class/class structure" do
+    _(::Base::SubClass.const_get(:New)).must_be_kind_of Class
+    _(::Base::SubClass::New.new.test).must_equal("New class created!")
   end
-  it 'adds a module in a class/class structure' do
-    _(::Base::SubClass.const_get('Mod')).wont_be_kind_of Class
-    _(::Base::SubClass.const_get('Mod')).must_be_kind_of Module
-    _(::Base::SubClass::Mod.instance_method(:test).bind(self).call).must_equal('Mod module created!')
+  it "adds a module in a class/class structure" do
+    _(::Base::SubClass.const_get(:Mod)).wont_be_kind_of Class
+    _(::Base::SubClass.const_get(:Mod)).must_be_kind_of Module
+    _(::Base::SubClass::Mod.instance_method(:test).bind_call(self)).must_equal("Mod module created!")
   end
-  it 'adds a class in a class/module structure' do
-    _(::Base::SubModule.const_get('New')).must_be_kind_of Class
-    _(::Base::SubModule::New.new.test).must_equal('New class created!')
+  it "adds a class in a class/module structure" do
+    _(::Base::SubModule.const_get(:New)).must_be_kind_of Class
+    _(::Base::SubModule::New.new.test).must_equal("New class created!")
   end
-  it 'adds a module in a class/module structure' do
-    _(::Base::SubModule.const_get('Mod')).wont_be_kind_of Class
-    _(::Base::SubModule.const_get('Mod')).must_be_kind_of Module
-    _(::Base::SubModule::Mod.instance_method(:test).bind(self).call).must_equal('Mod module created!')
+  it "adds a module in a class/module structure" do
+    _(::Base::SubModule.const_get(:Mod)).wont_be_kind_of Class
+    _(::Base::SubModule.const_get(:Mod)).must_be_kind_of Module
+    _(::Base::SubModule::Mod.instance_method(:test).bind_call(self)).must_equal("Mod module created!")
   end
-  it 'adds a class in a module/class structure' do
-    _(::Basis::SubClass.const_get('New')).must_be_kind_of Class
-    _(::Basis::SubClass::New.new.test).must_equal('New class created!')
+  it "adds a class in a module/class structure" do
+    _(::Basis::SubClass.const_get(:New)).must_be_kind_of Class
+    _(::Basis::SubClass::New.new.test).must_equal("New class created!")
   end
-  it 'adds a module in a module/class structure' do
-    _(::Basis::SubClass.const_get('Mod')).wont_be_kind_of Class
-    _(::Basis::SubClass.const_get('Mod')).must_be_kind_of Module
-    _(::Basis::SubClass::Mod.instance_method(:test).bind(self).call).must_equal('Mod module created!')
+  it "adds a module in a module/class structure" do
+    _(::Basis::SubClass.const_get(:Mod)).wont_be_kind_of Class
+    _(::Basis::SubClass.const_get(:Mod)).must_be_kind_of Module
+    _(::Basis::SubClass::Mod.instance_method(:test).bind_call(self)).must_equal("Mod module created!")
   end
-  it 'adds a class in a module/module structure' do
-    _(::Basis::SubModule.const_get('New')).must_be_kind_of Class
-    _(::Basis::SubModule::New.new.test).must_equal('New class created!')
+  it "adds a class in a module/module structure" do
+    _(::Basis::SubModule.const_get(:New)).must_be_kind_of Class
+    _(::Basis::SubModule::New.new.test).must_equal("New class created!")
   end
-  it 'adds a module in a module/module structure' do
-    _(::Basis::SubModule.const_get('Mod')).wont_be_kind_of Class
-    _(::Basis::SubModule.const_get('Mod')).must_be_kind_of Module
-    _(::Basis::SubModule::Mod.instance_method(:test).bind(self).call).must_equal('Mod module created!')
+  it "adds a module in a module/module structure" do
+    _(::Basis::SubModule.const_get(:Mod)).wont_be_kind_of Class
+    _(::Basis::SubModule.const_get(:Mod)).must_be_kind_of Module
+    _(::Basis::SubModule::Mod.instance_method(:test).bind_call(self)).must_equal("Mod module created!")
   end
-  it 'creates a class via the namespace' do
+  it "creates a class via the namespace" do
     klass = namespace Base::SubClass, class: :Inline do
       def inline_method
         "inline!"
@@ -117,7 +117,7 @@ describe Expand do
     end
     _(klass).must_be_kind_of(Class)
   end
-  it 'creates a class with a parent via the namespace' do
+  it "creates a class with a parent via the namespace" do
     klass = namespace Base::SubClass, class: :InlineClass, parent: Numeric do
       def inline_method
         "inline class!"
@@ -126,7 +126,7 @@ describe Expand do
     _(klass.new).must_be_kind_of(Numeric)
     _(klass.new).must_respond_to(:inline_method)
   end
-  it 'creates a module via the namespace' do
+  it "creates a module via the namespace" do
     mod = namespace Base::SubClass, module: :InlineModule do
       def inline_method
         "inline module!"
@@ -135,24 +135,24 @@ describe Expand do
     _(mod).must_be_kind_of(Module)
     _(mod.instance_methods).must_include(:inline_method)
   end
-  it 'raises an error with class and module options' do
-    err = _{ namespace Base::SubClass, module: :InlineModule, class: :InlineClass }.must_raise(ArgumentError)
+  it "raises an error with class and module options" do
+    err = _ { namespace Base::SubClass, module: :InlineModule, class: :InlineClass }.must_raise(ArgumentError)
     _(err.message).must_match(/not both/)
   end
-  it 'warns when a parent option is provided with module' do
+  it "warns when a parent option is provided with module" do
     _out, err = capture_io do
       namespace Base::SubClass, module: :NoParent, parent: Base::SubClass::New
     end
-    _(err).must_match(/An option for :parent was provided as \`Base::SubClass::New' but was ignored/)
+    _(err).must_match(/An option for :parent was provided as `Base::SubClass::New' but was ignored/)
   end
-  it 'works as a module_function' do
+  it "works as a module_function" do
     mod = Expand.namespace Base::SubClass, module: :Test do
       def does_it_work?
         "yes"
       end
     end
     _(mod.instance_methods).must_include(:does_it_work?)
-    _(mod.instance_method(:does_it_work?).bind(self).call).must_equal "yes"
-    _(mod.name).must_equal('Base::SubClass::Test')
+    _(mod.instance_method(:does_it_work?).bind_call(self)).must_equal "yes"
+    _(mod.name).must_equal("Base::SubClass::Test")
   end
 end

@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 # Specify your gem's dependencies in expand.gemspec
 gemspec
@@ -6,3 +6,4 @@ gemspec
 gem "minitest"
 gem "simplecov"
 gem "rake"
+gem "standardrb"
