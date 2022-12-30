@@ -99,12 +99,10 @@ module Expand
     raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
 
     if creating_class
-      parent = parent_module || Object
-      manager.create_class(creating_class, parent: parent, &block)
+      manager.create_class(creating_class, parent: parent_module || Object, &block)
     elsif creating_module
-      if parent_module
-        warn "An option for :parent was provided as `#{parent_module}' but was ignored when creating the module: #{creating_module}"
-      end
+      warn "An option for :parent was provided as `#{parent_module}' but was ignored when creating the module: #{creating_module}" if parent_module
+
       manager.create_module(creating_module, &block)
     else
       manager.instance_eval(&block)
