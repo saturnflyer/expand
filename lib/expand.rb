@@ -47,6 +47,15 @@ module Expand
       @managed.const_set(name, klass)
       klass
     end
+
+    def self.for(context)
+      unless context.is_a?(Module)
+        context = context.to_s.split("::").inject(Object) do |base, mod|
+          base.const_get(mod)
+        end
+      end
+      new(context)
+    end
   end
 
   # Allows you to open a module namespace to add constants
@@ -81,12 +90,7 @@ module Expand
   # @see Expand::Manager#create_module
   #
   def namespace(context, **class_or_module, &block)
-    unless context.is_a?(Module)
-      context = context.to_s.split("::").inject(Object) do |base, mod|
-        base.const_get(mod)
-      end
-    end
-    manager = Manager.new(context)
+    manager = Manager.for(context)
 
     creating_class, creating_module = class_or_module[:class], class_or_module[:module]
     raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
