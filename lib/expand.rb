@@ -92,15 +92,18 @@ module Expand
   def namespace(context, **class_or_module, &block)
     manager = Manager.for(context)
 
-    creating_class, creating_module = class_or_module[:class], class_or_module[:module]
+    creating_class = class_or_module[:class]
+    creating_module = class_or_module[:module]
+    parent_module = class_or_module[:parent]
+
     raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
 
     if creating_class
-      parent = class_or_module[:parent] || Object
+      parent = parent_module || Object
       manager.create_class(creating_class, parent: parent, &block)
     elsif creating_module
-      if class_or_module[:parent]
-        warn "An option for :parent was provided as `#{class_or_module[:parent]}' but was ignored when creating the module: #{class_or_module[:module]}"
+      if parent_module
+        warn "An option for :parent was provided as `#{parent_module}' but was ignored when creating the module: #{creating_module}"
       end
       manager.create_module(creating_module, &block)
     else
