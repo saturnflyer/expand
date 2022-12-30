@@ -90,13 +90,13 @@ module Expand
   # @see Expand::Manager#create_module
   #
   def namespace(context, **class_or_module, &block)
-    manager = Manager.for(context)
-
     creating_class = class_or_module[:class]
     creating_module = class_or_module[:module]
     parent_module = class_or_module[:parent]
 
     raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
+
+    manager = Manager.for(context)
 
     if creating_class
       manager.create_class(creating_class, parent: parent_module || Object, &block)
