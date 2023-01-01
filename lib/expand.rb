@@ -7,7 +7,7 @@ module Expand
   #
   class Manager
     # @see Expand#namespace
-    def initialize(namespace, **class_or_module, &block)
+    def initialize(namespace)
       @managed = namespace
     end
 
