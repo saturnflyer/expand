@@ -63,6 +63,18 @@ namespace SomeGem::Thing do
 end
 ```
 
+## Gotchas
+
+Unfortunately, due to the scoping of the blocks passed to the main `namespace` or `expand` methods, you are unable to directly reference classes nested in your namespace.
+
+You can, however, pass an argument to the block to use as a reference:
+
+```ruby
+namespace SomeGem::Thing do |klass|
+  puts klass #=> yields "SomeGem::Thing"
+end
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
