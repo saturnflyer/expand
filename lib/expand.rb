@@ -48,6 +48,11 @@ module Expand
       klass
     end
 
+    def apply(&block)
+      instance_eval(&block)
+      @managed
+    end
+
     def self.for(context)
       unless context.is_a?(Module)
         context = context.to_s.split("::").inject(Object) do |base, mod|
@@ -90,22 +95,23 @@ module Expand
   # @see Expand::Manager#create_module
   #
   def namespace(context, **class_or_module, &block)
-    creating_class = class_or_module[:class]
-    creating_module = class_or_module[:module]
-    parent_module = class_or_module[:parent]
-
-    raise ArgumentError, "You must choose either class: or module: but not both." if creating_class && creating_module
-
     manager = Manager.for(context)
 
-    if creating_class
-      manager.create_class(creating_class, parent: parent_module || Object, &block)
-    elsif creating_module
-      warn "An option for :parent was provided as `#{parent_module}' but was ignored when creating the module: #{creating_module}" if parent_module
+    case class_or_module
+    in { module: Symbol => _creating_module, class: Symbol => _creating_class }
+      raise ArgumentError, "You must choose either class: or module: but not both."
+    in { class: Symbol => creating_class, ** }
+      parent = class_or_module[:parent] || Object
+
+      manager.create_class(creating_class, parent: parent, &block)
+    in { module: Symbol => creating_module, ** }
+      if parent = class_or_module[:parent]
+        warn "An option for :parent was provided as `#{parent}' but was ignored when creating the module: #{creating_module}"
+      end
 
       manager.create_module(creating_module, &block)
     else
-      manager.instance_eval(&block)
+      manager.apply(&block)
     end
   end
   alias_method :expand, :namespace
