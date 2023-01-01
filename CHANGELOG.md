@@ -1,3 +1,8 @@
+## 1.0.5
+
+- use pattern matching in the `namespace` method
+- add an `apply` method to eval blocks in the Manager object
+
 ## 1.0.4
 
 - use a module function `Expand.namespace` so you don't need to extend
