@@ -155,4 +155,11 @@ describe Expand do
     _(mod.instance_method(:does_it_work?).bind_call(self)).must_equal "yes"
     _(mod.name).must_equal("Base::SubClass::Test")
   end
+  it "passes the namespace to the block" do
+    _ do
+      Expand.namespace Base::SubClass do |namespace|
+        print namespace.to_s
+      end
+    end.must_output("Base::SubClass")
+  end
 end

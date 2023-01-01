@@ -49,7 +49,7 @@ module Expand
     end
 
     def apply(&block)
-      instance_eval(&block)
+      instance_exec(@managed, &block)
       @managed
     end
 

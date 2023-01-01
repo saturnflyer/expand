@@ -1,3 +1,7 @@
+## 1.0.6
+
+- pass the managed namespace to the `namespace` method as an argument
+
 ## 1.0.5
 
 - use pattern matching in the `namespace` method
